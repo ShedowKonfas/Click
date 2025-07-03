@@ -12,7 +12,7 @@ result = random.choices(hype_rand, weights=probabilities, k=1)[0]
 
 
 # Инициализация бота с токеном
-bot = telebot.TeleBot("7501578133:AAGQPP1qEpBusawjZ7xt6CAXqd51a1EOdHs")
+bot = telebot.TeleBot("your_token_bot")
 
 # Обработчик команды /start
 @bot.message_handler(commands=['start'])

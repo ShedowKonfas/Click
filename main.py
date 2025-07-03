@@ -36,6 +36,7 @@ def click_mouse(message):
 # Обработчик команды /shutdown
 @bot.message_handler(commands=['shutdown', "sh"])
 def shutdown(message):
+    bot.reply_to(message, "Я устал Босс...")
     pyautogui.hotkey('win', 'r')
     pyautogui.write("shutdown /s /t 120")
     pyautogui.press("Enter")

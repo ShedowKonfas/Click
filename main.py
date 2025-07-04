@@ -3,6 +3,10 @@ import pyautogui
 import time
 import random
 
+# Инициализация бота с токеном
+bot = telebot.TeleBot("YOUR_BOT_TOKEN")
+
+# Переменные хранящие значение
 text_chest = False
 hotkey_chest = False
 shutdown = False
@@ -12,8 +16,7 @@ probabilities = [0.05, 0.3, 0.65]  # Сумма 1 (5%, 30%, 65%)
 result = random.choices(hype_rand, weights=probabilities, k=1)[0]
 
 
-# Инициализация бота с токеном
-bot = telebot.TeleBot("7501578133:AAGQPP1qEpBusawjZ7xt6CAXqd51a1EOdHs")
+
 
 # Обработчик команды /start
 @bot.message_handler(commands=['start'])

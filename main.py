@@ -5,6 +5,7 @@ import random
 
 text_chest = False
 hotkey_chest = False
+shutdown = False
 
 hype_rand = ["HYPE!!!-Legendary", "hype-epic", "hype-rare"]
 probabilities = [0.05, 0.3, 0.65]  # Сумма 1 (5%, 30%, 65%)
@@ -12,7 +13,7 @@ result = random.choices(hype_rand, weights=probabilities, k=1)[0]
 
 
 # Инициализация бота с токеном
-bot = telebot.TeleBot("your_token_bot")
+bot = telebot.TeleBot("7501578133:AAGQPP1qEpBusawjZ7xt6CAXqd51a1EOdHs")
 
 # Обработчик команды /start
 @bot.message_handler(commands=['start'])
@@ -36,10 +37,23 @@ def click_mouse(message):
 # Обработчик команды /shutdown
 @bot.message_handler(commands=['shutdown', "sh"])
 def shutdown(message):
-    bot.reply_to(message, "Я устал Босс...")
     pyautogui.hotkey('win', 'r')
     pyautogui.write("shutdown /s /t 120")
     pyautogui.press("Enter")
+
+# Обработчик команды /shut_on
+@bot.message_handler(commands=['shut_on'])
+def shutdown(message):
+    global shutdown
+    shutdown = True
+    bot.reply_to(message="Shutdown On")
+
+# Обработчик команды /shut_off
+@bot.message_handler(commands=['shut_off'])
+def shutdown(message):
+    global shutdown
+    shutdown = False
+    bot.reply_to(message="Shutdown Off")
 
 # Обработчик команды /press
 @bot.message_handler(commands=['press'])

@@ -3,20 +3,16 @@ import pyautogui
 import time
 import random
 
-# Инициализация бота с токеном
-bot = telebot.TeleBot("YOUR_BOT_TOKEN")
-
-# Переменные хранящие значение
 text_chest = False
 hotkey_chest = False
-shutdown = False
+shutdown_chest = False
 
 hype_rand = ["HYPE!!!-Legendary", "hype-epic", "hype-rare"]
 probabilities = [0.05, 0.3, 0.65]  # Сумма 1 (5%, 30%, 65%)
 result = random.choices(hype_rand, weights=probabilities, k=1)[0]
 
-
-
+# Инициализация бота с токеном
+bot = telebot.TeleBot("7501578133:AAGQPP1qEpBusawjZ7xt6CAXqd51a1EOdHs")
 
 # Обработчик команды /start
 @bot.message_handler(commands=['start'])
@@ -31,32 +27,41 @@ def help_message(message):
 # Обработчик команды /click
 @bot.message_handler(commands=['click'])
 def click_mouse(message):
-    bot.reply_to(message, "Начинаю имитировать нажатия мыши...")
-    for _ in range(1):  # Количество нажатий
-        pyautogui.click()  # Имитируем нажатие левой кнопки мыши
-        # time.sleep(1)  # Задержка между нажатиями (1 секунда)
-    bot.reply_to(message, "Имитирование нажатий завершено.")
+    pyautogui.click()  # Имитируем нажатие левой кнопки мыши   
+    bot.reply_to(message, "Кликнул")
+
+# Обработчик команды /sh
+@bot.message_handler(commands=['sh'])
+def show_shutdown_status(message):
+    if shutdown_chest == False:
+        bot.reply_to(message, "Сейчас sh=False")
+    else:
+        bot.reply_to(message, "Сейчас sh=True")
+    bot.reply_to(message, "Вот команды: /shut_on, /shut_off, /shutdown")
 
 # Обработчик команды /shutdown
-@bot.message_handler(commands=['shutdown', "sh"])
-def shutdown(message):
-    pyautogui.hotkey('win', 'r')
-    pyautogui.write("shutdown /s /t 120")
-    pyautogui.press("Enter")
+@bot.message_handler(commands=['shutdown'])
+def perform_shutdown(message):
+    if shutdown_chest == True:
+        pyautogui.hotkey('win', 'r')
+        pyautogui.write("shutdown /s /t 120")
+        pyautogui.press("Enter")
+    else:
+        bot.reply_to(message, "shutdown=Off")
 
 # Обработчик команды /shut_on
 @bot.message_handler(commands=['shut_on'])
-def shutdown(message):
-    global shutdown
-    shutdown = True
-    bot.reply_to(message="Shutdown On")
+def enable_shutdown(message):
+    global shutdown_chest
+    shutdown_chest = True
+    bot.reply_to(message, "shutdown On")
 
 # Обработчик команды /shut_off
 @bot.message_handler(commands=['shut_off'])
-def shutdown(message):
-    global shutdown
-    shutdown = False
-    bot.reply_to(message="Shutdown Off")
+def disable_shutdown(message):
+    global shutdown_chest
+    shutdown_chest = False
+    bot.reply_to(message, "shutdown Off")
 
 # Обработчик команды /press
 @bot.message_handler(commands=['press'])
@@ -90,7 +95,6 @@ def handle_text(message):
         pyautogui.write(text_to_type)
         text_chest = False
         bot.reply_to(message, "Фраза написана.")
-
 
 # Обработчик стикеров
 @bot.message_handler(content_types=['sticker'])

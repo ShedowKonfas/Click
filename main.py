@@ -2,6 +2,7 @@ import telebot
 import pyautogui
 import time
 import random
+import subprocess
 
 text_chest = False
 hotkey_chest = False
@@ -76,6 +77,12 @@ def type_message(message):
     global text_chest
     text_chest = True
     bot.reply_to(message, "Какую фразу написать?")
+
+# Обработчик команды /file
+@bot.message_handler(commands=['file'])
+def disable_shutdown(message):
+    subprocess.run("filezailla start.ink")
+    bot.reply_to(message, "shutdown Off")
 
 # Обработчик текстовых сообщений
 @bot.message_handler(func=lambda message: True)
